@@ -1,8 +1,12 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base 
+from sqlalchemy.ext.asyncio import create_async_engine
+
+databaseUrl = 'sqlite+aiosqlite:///.db'
+
+engine = create_async_engine(databaseUrl)
 
 Base = declarative_base()
-
 
 class Song(Base):
     __tablename__ = 'song'
