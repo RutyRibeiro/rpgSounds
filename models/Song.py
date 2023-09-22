@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String, Delete
+from sqlalchemy import Column, Integer, String, Delete, Select
 from sqlalchemy.orm import declarative_base, sessionmaker 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.future import select
 
 databaseUrl = 'sqlite+aiosqlite:///db.db'
 
@@ -10,7 +9,6 @@ engine = create_async_engine(databaseUrl)
 session = sessionmaker(
     engine,
     expire_on_commit = False,
-    future = True,
     class_= AsyncSession
 )
 
@@ -41,7 +39,7 @@ async def createSong(name, link, tags, classification):
 async def selectSong(id):
     async with session() as s:
         response = await s.execute(
-            select(Song).where(
+            Select(Song).where(
                 Song.id == id
             )
         )
@@ -56,8 +54,7 @@ async def deleteSong(id):
         )
         await s.commit()
 
-from asyncio import run
 # run(createDatabase()) 
 # run(createSong('seila','seila.com.br', 'Forró, Animado, Dança, Feliz', 'Forró')) 
 # print (run(selectSong(1)) )
-run(deleteSong(1))
+# run(deleteSong(2))
