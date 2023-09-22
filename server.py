@@ -15,11 +15,8 @@ def getSong(id):
 
 @app.route("/", methods =['POST'])
 def addSong():
-    name = request.get_json()['name']
-    link = request.get_json()['link']
-    tags = request.get_json()['tags']
-    classification = request.get_json()['classification']
-    response = str(run(createSong(name, link, tags, classification)))
+    req = request.get_json()
+    response = str(run(createSong(req['name'], req['link'], req['tags'], req['classification'])))
     return response
 
 if __name__ == '__main__':
